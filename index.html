@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Anki中英文消消乐</title>
+    <link rel="icon" type="image/png" href="images/icon-match.png">
+    <link rel="apple-touch-icon" href="images/icon-match.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <svg class="svg-filter-defs" aria-hidden="true">
+        <defs>
+            <filter id="themeIconTint" color-interpolation-filters="sRGB">
+                <feFlood id="themeIconFlood" flood-color="#4776C9" result="themeColor"></feFlood>
+                <feComposite in="themeColor" in2="SourceAlpha" operator="in"></feComposite>
+            </filter>
+        </defs>
+    </svg>
+
+    <!-- 顶部栏 -->
+    <header class="header">
+        <h1>Anki中英文消消乐</h1>
+        <div class="header-actions">
+            <button id="openSettingsBtn" class="icon-btn pure-icon-btn" title="设置">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path
+                        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                    </path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- 顶部信息栏（游戏中显示） -->
+    <div class="info-bar" id="infoBar" style="display: none;">
+        <div class="info-progress-group">
+            <button id="backHomeBtn" class="back-icon-btn game-back-btn" type="button"
+                title="返回首页" aria-label="返回首页"><img class="themed-icon back-icon" src="images/icon-back.png"
+                    alt=""></button>
+            <span><img class="themed-icon icon-sm" src="images/icon-book-open.png" alt=""> <span id="infoProgressLabel">今日</span> <b id="infoProgress">0 /
+                    20</b></span>
+        </div>
+        <span id="infoEstimate"><img class="themed-icon icon-sm" src="images/icon-target.png" alt=""> 预计 <b id="infoDays">1</b>
+            天完成本轮</span>
+    </div>
+
+    <!-- 游戏主面板 -->
+    <div class="game-container">
+        <div class="board" id="board">
+            <div class="column" id="colLeft"></div>
+            <div class="column" id="colRight"></div>
+
+            <!-- 首次使用引导页 -->
+            <div class="result-overlay onboarding-overlay" id="onboardingOverlay" hidden>
+                <section class="onboarding-card" aria-labelledby="onboardingTitle">
+                    <button class="close-btn onboarding-close-btn" id="onboardingCloseBtn" type="button"
+                        aria-label="关闭欢迎页">
+                        <img class="close-image" src="images/icon-close.png" alt="">
+                    </button>
+                    <h2 class="onboarding-title" id="onboardingTitle">欢迎使用</h2>
+                    <div class="onboarding-lines" id="onboardingLines" aria-live="polite"></div>
+                    <button class="onboarding-next-btn" id="onboardingNextBtn" type="button" aria-label="下一页">
+                        <img class="themed-icon onboarding-next-icon" src="images/icon-back.png" alt="">
+                    </button>
+                </section>
+            </div>
+
+            <!-- 新用户欢迎页 -->
+            <div class="result-overlay show" id="welcomeOverlay">
+                <h2 class="welcome-title">
+                    <img class="themed-icon icon-lg" src="images/icon-wave.png" alt="">
+                    <span>欢迎来到单词消消乐</span>
+                </h2>
+                <p class="welcome-subtitle">设置好学习计划，马上开始！</p>
+
+                <div class="welcome-form">
+                    <div class="welcome-row">
+                        <label class="welcome-label">
+                            <img class="themed-icon icon-sm" src="images/icon-books.png" alt="">
+                            选择词库
+                        </label>
+                        <div class="welcome-bank-row">
+                            <span id="welcomeBankInfo" class="welcome-bank-info">当前词库：0 个词</span>
+                            <label class="upload-label">
+                                导入文件
+                                <input type="file" id="welcomeFileInput" accept=".xlsx,.tsv,.txt,.csv" class="file-upload">
+                            </label>
+                        </div>
+                        <small class="welcome-hint">支持 XLSX、CSV、TSV、TXT；XLSX 可自动识别工作表、起始行和词汇列</small>
+                    </div>
+
+                    <div class="welcome-row welcome-json-row">
+                        <label class="welcome-label">
+                            <img class="themed-icon icon-sm" src="images/icon-calender.png" alt="">
+                            已有学习记录
+                        </label>
+                        <div class="welcome-bank-row">
+                            <span class="welcome-bank-info">可恢复此前备份的词库与学习进度</span>
+                            <label class="upload-label secondary-upload-label">
+                                导入 JSON
+                                <input type="file" id="welcomeJsonInput" accept=".json,application/json" class="file-upload">
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="welcome-row">
+                        <label class="welcome-label">
+                            <img class="themed-icon icon-sm" src="images/icon-target.png" alt="">
+                            每日学习量
+                        </label>
+                        <div class="welcome-input-row">
+                            <input type="number" id="welcomeDailyLimit" class="custom-input" min="5" max="500"
+                                value="20">
+                            <span>个 / 天</span>
+                        </div>
+                    </div>
+
+                    <div class="welcome-preview" id="welcomePreview">
+                        请先添加词书
+                    </div>
+                </div>
+
+                <button class="primary-btn welcome-start-btn" id="startGameBtn">开始学习</button>
+            </div>
+
+            <!-- 老用户首页 -->
+            <div class="result-overlay" id="homeOverlay">
+                <div class="home-content-wrapper">
+
+                    <!-- 1. 词库信息卡片 -->
+                    <div class="home-book-entry">
+                        <button class="home-card home-book-card" id="openWordListBtn" type="button"
+                            title="查看全部单词" aria-label="打开民航单词列表">
+                            <span class="home-book-icon" aria-hidden="true">
+                                <img class="themed-icon home-book-image" src="images/icon-aviation-book.png" alt="">
+                            </span>
+                            <span class="home-book-details">
+                                <span class="home-book-name" id="homeBookName">未导入词库</span>
+                                <span class="home-book-days" id="homeBookDays"></span>
+                            </span>
+                        </button>
+                        <small class="home-book-entry-hint">点击卡片可打开单词列表</small>
+                    </div>
+
+                    <!-- 2. 双圆环进度卡片 -->
+                    <div class="home-card home-rings-card">
+                        <div class="home-dual-rings">
+                            <div class="ring-item">
+                                <svg class="progress-ring" viewBox="0 0 100 100" aria-hidden="true">
+                                    <circle class="ring-bg-path" cx="50" cy="50" r="44" />
+                                    <circle class="ring-fg-path" id="todayRingPath" cx="50" cy="50" r="44" />
+                                </svg>
+                                <div class="ring-text">
+                                    <div class="ring-main-val" id="homeTodayProgress">0/0</div>
+                                    <div class="ring-label">今日</div>
+                                </div>
+                            </div>
+                            <div class="ring-item">
+                                <svg class="progress-ring" viewBox="0 0 100 100" aria-hidden="true">
+                                    <circle class="ring-bg-path" cx="50" cy="50" r="44" />
+                                    <circle class="ring-fg-path" id="totalRingPath" cx="50" cy="50" r="44" />
+                                </svg>
+                                <div class="ring-text">
+                                    <div class="ring-main-val" id="homeTotalProgress">0/0</div>
+                                    <div class="ring-label">总进度</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. 底部按钮 -->
+                    <div class="home-bottom-area">
+                        <button class="primary-btn home-start-btn" id="homeStartBtn">开始背单词</button>
+                        <button class="primary-btn home-start-btn" id="homeBonusBtn" style="display: none;">加量学习
+                            +10</button>
+                        <p class="home-message" id="homeMessage"></p>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- 全部单词页面 -->
+            <div class="result-overlay" id="wordListOverlay">
+                <div class="word-list-shell">
+                    <div class="word-list-toolbar">
+                        <button class="back-icon-btn word-list-back-btn" id="closeWordListBtn" type="button"
+                            title="返回首页" aria-label="返回首页"><img class="themed-icon back-icon"
+                                src="images/icon-back.png" alt=""></button>
+                        <div class="word-list-controls">
+                            <label class="word-search-control">
+                                <input id="wordSearchInput" type="search" placeholder="搜索单词或释义"
+                                    aria-label="搜索单词或释义" autocomplete="off">
+                            </label>
+                            <button class="review-wrong-btn" id="reviewAllWrongBtn" type="button">一键复习所有错词</button>
+                            <button class="export-vocabulary-btn" id="exportVocabularyBtn" type="button">导出 TSV</button>
+                            <label class="wrong-only-control">
+                                <input type="checkbox" id="wrongOnlyCheckbox">
+                                <span>只看错词</span>
+                            </label>
+                            <label class="sort-control" for="wordSortKey">
+                                <img class="themed-icon icon-sort" src="images/icon-sort.png" alt="" aria-hidden="true">
+                                <span>排序方式</span>
+                                <select id="wordSortKey">
+                                    <option value="name">按名称</option>
+                                    <option value="errors">按错误频率</option>
+                                </select>
+                            </label>
+                            <button class="sort-direction-btn" id="wordSortDirection" type="button"
+                                aria-label="切换正序或倒序"><span id="wordSortDirectionLabel">正序</span><img
+                                    class="themed-icon sort-direction-icon" id="wordSortDirectionIcon"
+                                    src="images/icon-up.png" alt="" aria-hidden="true"></button>
+                        </div>
+                    </div>
+
+                    <div class="word-list-header" aria-hidden="true">
+                        <span>单词</span>
+                        <span>中文释义</span>
+                        <span>错误次数</span>
+                        <span>掌握程度</span>
+                        <span>操作</span>
+                    </div>
+
+                    <div class="word-list-content">
+                        <div class="word-list-scroll" id="wordListScroll">
+                            <div class="word-list" id="wordList"></div>
+                            <p class="word-list-empty" id="wordListEmpty" hidden>暂无符合条件的单词</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 设置弹窗 -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal-content settings-modal-content">
+            <div class="modal-header">
+                <h2>设置</h2>
+                <button class="close-btn" id="closeModalBtn" type="button" aria-label="关闭设置"><img class="close-image" src="images/icon-close.png" alt=""></button>
+            </div>
+            <div class="modal-body">
+                <!-- 导入词库 -->
+                <div class="setting-group">
+                    <div class="setting-group-title">导入词库</div>
+                    <div class="setting-desc-row">
+                        <p class="setting-desc">
+                            支持 XLSX、CSV、TSV、TXT；XLSX 导入前可预览并调整工作表、起始行和列<br>
+                            导入词库后，原有学习数据会被清空
+                        </p>
+                        <label class="file-btn">
+                            选择文件
+                            <input type="file" id="fileInput" accept=".xlsx,.tsv,.txt,.csv" class="file-upload">
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 外观 -->
+                <div class="setting-group">
+                    <div class="setting-group-title">外观</div>
+                    <div class="theme-switch" id="themeSwitch">
+                        <button class="theme-btn" data-theme="light" title="浅色模式">
+                            <img class="emoji-icon icon-md original-color-icon" src="images/icon-sun.png" alt="☀️">
+                        </button>
+                        <button class="theme-btn" data-theme="dark" title="深色模式">
+                            <img class="emoji-icon icon-md original-color-icon" src="images/icon-moon.png" alt="🌙">
+                        </button>
+                    </div>
+                    <div class="accent-theme-row">
+                        <span class="accent-theme-label">主题色</span>
+                        <div class="accent-theme-picker" aria-label="切换主题色">
+                            <button class="accent-theme-btn" data-accent-theme="blue" type="button"
+                                title="晴空蓝" aria-label="晴空蓝"></button>
+                            <button class="accent-theme-btn" data-accent-theme="rose" type="button"
+                                title="浅樱粉 #ffcdcd" aria-label="浅樱粉"></button>
+                            <button class="accent-theme-btn" data-accent-theme="lilac" type="button"
+                                title="浅丁香 #f6ddff" aria-label="浅丁香"></button>
+                            <button class="accent-theme-btn" data-accent-theme="sky" type="button"
+                                title="浅空蓝 #bee4ff" aria-label="浅空蓝"></button>
+                            <button class="accent-theme-btn" data-accent-theme="lemon" type="button"
+                                title="浅柠黄 #feffb4" aria-label="浅柠黄"></button>
+                            <label class="accent-custom-picker" id="accentCustomPicker" title="自定义主题色">
+                                <input id="accentCustomColor" type="color" value="#bee4ff" aria-label="自定义主题色">
+                                <span aria-hidden="true">＋</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="background-setting-row">
+                        <span class="accent-theme-label">页面背景</span>
+                        <div class="background-setting-actions">
+                            <label class="background-upload-btn">
+                                选择图片
+                                <input id="backgroundImageInput" type="file" accept="image/*" class="file-upload">
+                            </label>
+                            <button class="background-clear-btn" id="clearBackgroundBtn" type="button">移除背景</button>
+                        </div>
+                        <small class="background-setting-status" id="backgroundImageStatus">未设置背景</small>
+                    </div>
+                </div>
+
+                <!-- 学习 -->
+                <div class="setting-group">
+                    <div class="setting-group-title">学习</div>
+                    <div class="setting-row">
+                        <label>每日学习词汇数量</label>
+                        <select id="dailyLimitSelect" class="simple-select">
+                            <option value="10">10</option>
+                            <option value="20" selected>20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="custom">自定义</option>
+                        </select>
+                    </div>
+                    <div class="setting-row">
+                        <label>每组显示词汇数量</label>
+                        <select id="groupSizeSelect" class="simple-select">
+                            <option value="auto">自动(适应屏幕)</option>
+                            <option value="4">4</option>
+                            <option value="6">6</option>
+                            <option value="8">8</option>
+                            <option value="10">10</option>
+                            <option value="12">12</option>
+                            <option value="custom">自定义</option>
+                        </select>
+                    </div>
+                    <div class="setting-row">
+                        <label class="setting-checkbox-control" for="shuffleModeCheckbox">
+                            <input id="shuffleModeCheckbox" type="checkbox" checked>
+                            <span>乱序模式</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 备份与重置 -->
+                <div class="setting-group" style="border-bottom: none;">
+                    <div class="setting-group-title">备份与重置</div>
+
+                    <button id="exportBtn" class="outline-btn blue-outline">备份学习进度为json</button>
+
+                    <label class="outline-btn blue-outline" style="display: block;">
+                        从json文件导入数据...
+                        <input type="file" id="importJsonInput" accept=".json" class="file-upload">
+                    </label>
+
+                    <button id="clearProgressBtn" class="outline-btn red-outline">保留词库清除学习进度</button>
+                    <button id="clearAllBtn" class="outline-btn red-outline">清除所有数据</button>
+                </div>
+            </div>
+
+            <div class="modal-footer settings-footer">
+                <button class="primary-btn action-btn" id="confirmSettingsBtn">保存</button>
+                <button class="secondary-btn action-btn" id="closeModalBtnBottom">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 自定义数值弹窗 -->
+    <div class="modal-overlay" id="customModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="customModalTitle">自定义</h2>
+                <button class="close-btn" id="closeCustomModalBtn" type="button" aria-label="关闭弹窗"><img class="close-image" src="images/icon-close.png" alt=""></button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-item">
+                    <span id="customModalLabel">请输入数量</span>
+                    <input type="number" id="customModalInput" class="custom-input">
+                </div>
+                <div class="modal-actions">
+                    <button class="secondary-btn" id="cancelCustomBtn">取消</button>
+                    <button class="primary-btn" id="confirmCustomBtn">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 统一风格确认弹窗 -->
+    <div class="modal-overlay" id="confirmModal" role="dialog" aria-modal="true"
+        aria-labelledby="confirmModalTitle" aria-describedby="confirmModalMessage">
+        <div class="modal-content confirm-modal-content">
+            <div class="modal-header">
+                <h2 id="confirmModalTitle">确认操作</h2>
+                <button class="close-btn" id="closeConfirmModalBtn" type="button" aria-label="关闭确认弹窗">
+                    <img class="close-image" src="images/icon-close.png" alt="">
+                </button>
+            </div>
+            <div class="modal-body confirm-modal-body">
+                <p class="confirm-modal-message" id="confirmModalMessage"></p>
+                <div class="modal-actions">
+                    <button class="secondary-btn" id="cancelConfirmBtn" type="button">取消</button>
+                    <button class="primary-btn confirm-danger-btn" id="confirmActionBtn" type="button">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- XLSX 导入预览 -->
+    <div class="modal-overlay xlsx-import-modal" id="xlsxImportModal" role="dialog" aria-modal="true"
+        aria-labelledby="xlsxImportTitle">
+        <div class="modal-content xlsx-import-content">
+            <div class="modal-header">
+                <div>
+                    <h2 id="xlsxImportTitle">预览 XLSX 词汇表</h2>
+                    <p class="xlsx-import-subtitle">请核对自动识别结果，确认后才会覆盖当前词库</p>
+                </div>
+                <button class="close-btn" id="closeXlsxImportBtn" type="button" aria-label="关闭 XLSX 导入预览">
+                    <img class="close-image" src="images/icon-close.png" alt="">
+                </button>
+            </div>
+            <div class="modal-body xlsx-import-body">
+                <div class="xlsx-import-options">
+                    <label>
+                        <span>工作表</span>
+                        <select id="xlsxSheetSelect"></select>
+                    </label>
+                    <label>
+                        <span>开始行</span>
+                        <input id="xlsxStartRow" type="number" min="1" value="1">
+                    </label>
+                    <label>
+                        <span>单词列</span>
+                        <select id="xlsxFrontColumn"></select>
+                    </label>
+                    <label>
+                        <span>释义列</span>
+                        <select id="xlsxBackColumn"></select>
+                    </label>
+                </div>
+                <div class="xlsx-import-summary" id="xlsxImportSummary"></div>
+                <div class="xlsx-preview-table">
+                    <div class="xlsx-preview-header" aria-hidden="true">
+                        <span>行</span><span>单词</span><span>释义</span><span>判断</span>
+                    </div>
+                    <div class="xlsx-preview-body" id="xlsxPreviewBody"></div>
+                </div>
+                <p class="xlsx-preview-note" id="xlsxPreviewNote"></p>
+            </div>
+            <div class="modal-footer xlsx-import-footer">
+                <button class="secondary-btn" id="cancelXlsxImportBtn" type="button">取消</button>
+                <button class="primary-btn" id="confirmXlsxImportBtn" type="button">确认导入</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="vendor/jszip.min.js"></script>
+    <script src="xlsx.js"></script>
+    <script src="algo.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
