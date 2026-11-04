@@ -1,0 +1,379 @@
+:root {
+    --bg-color: #F5F0E6;
+    --panel-bg: #E8EEF9;
+    --card-bg: #FFFFFF;
+    --text-color: #333333;
+    --border-color: #5C6B7A;
+    --shadow-color: rgba(0, 0, 0, 0.15);
+    --primary-color: #4A90E2;
+    --error-color: #E25C5C;
+    --highlight-color: #FFD700;
+    --success-color: #4CAF50;
+}
+
+body.dark-mode {
+    --bg-color: #1E1E24;
+    --panel-bg: #2B2D35;
+    --card-bg: #3A3D46;
+    --text-color: #E0E0E0;
+    --border-color: #5A6270;
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    --primary-color: #6FB0F5;
+    --success-color: #66BB6A;
+}
+
+* {
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    --interface-opacity-percent: 100%;
+}
+
+/* 顶部栏 */
+.header {
+    width: 100%;
+    max-width: 800px;
+    padding: 15px 20px;
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr) 40px;
+    align-items: center;
+    z-index: 10;
+}
+
+.header h1 {
+    grid-column: 2;
+    margin: 0;
+    font-size: 1.35rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+.header-actions {
+    grid-column: 3;
+    justify-self: end;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.icon-btn {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pure-icon-btn {
+    background: transparent;
+    border: none;
+    padding: 4px;
+    box-shadow: none;
+}
+
+/* 信息栏 */
+.info-bar {
+    width: 100%;
+    max-width: 800px;
+    padding: 4px 20px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.92rem;
+    gap: 10px;
+    flex-wrap: wrap;
+    opacity: 0.85;
+}
+
+.info-bar b {
+    color: var(--primary-color);
+}
+
+.info-progress-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.session-timer {
+    white-space: nowrap;
+}
+
+/* 游戏主面板 */
+.game-container {
+    flex: 1;
+    width: 100%;
+    max-width: 800px;
+    padding: 0 15px 15px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.board {
+    flex: 1;
+    background-color: var(--panel-bg);
+    border: 4px solid var(--border-color);
+    border-radius: 16px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    position: relative;
+    overflow-y: auto;
+    transition: background-color 0.3s;
+}
+
+.column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    max-width: 50%;
+}
+
+.column[hidden] {
+    display: none;
+}
+
+.custom-board-grid {
+    flex: 0 1 auto;
+    width: min(100%, 1040px);
+    height: min(100%, 820px);
+    min-height: 0;
+    display: grid;
+    grid-template-columns: repeat(var(--custom-columns, 4), minmax(0, 1fr));
+    grid-template-rows: repeat(var(--custom-rows, 4), minmax(54px, 1fr));
+    gap: clamp(8px, 1.5vw, 15px);
+    align-content: stretch;
+    align-items: stretch;
+    justify-items: stretch;
+}
+
+body.custom-layout-active .board {
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.custom-board-grid[hidden] {
+    display: none;
+}
+
+.custom-board-grid .card {
+    width: 100%;
+    height: auto;
+    min-height: 54px;
+    margin: 0;
+    min-width: 0;
+    align-self: stretch;
+    justify-self: stretch;
+    text-align: center;
+}
+
+.custom-board-grid .card.matched {
+    height: auto;
+    min-height: 54px;
+    padding: 10px;
+    margin: 0;
+    border-width: 2px;
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+/* 卡片 */
+.card {
+    background-color: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    font-size: 1.2rem;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 4px 6px var(--shadow-color);
+    height: 80px;
+    min-height: 80px;
+    margin-bottom: 15px;
+    word-break: break-word;
+    overflow: hidden;
+    transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    animation: cardEnter 0.3s ease-out forwards;
+}
+
+@keyframes cardEnter {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.card:active {
+    transform: scale(0.95);
+}
+
+.card.selected {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 12px var(--primary-color);
+}
+
+.card.error {
+    pointer-events: none;
+    border-color: var(--error-color);
+    background-color: rgba(226, 92, 92, 0.1);
+    animation: shake 0.4s;
+}
+
+.card.highlight {
+    border-color: var(--highlight-color);
+    box-shadow: 0 0 15px var(--highlight-color);
+}
+
+.card.success {
+    pointer-events: none;
+    border-color: var(--success-color);
+    background-color: rgba(76, 175, 80, 0.15);
+    box-shadow: 0 0 15px var(--success-color);
+    transform: scale(1.05);
+}
+
+.card.matched {
+    pointer-events: none;
+    animation: none;
+    opacity: 0;
+    transform: scale(0.8);
+    height: 0;
+    min-height: 0;
+    padding: 0;
+    margin-bottom: 0;
+    border-width: 0;
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    50% {
+        transform: translateX(5px);
+    }
+
+    75% {
+        transform: translateX(-5px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* 正确配对后的星星散开动画 */
+.star-particle {
+    position: absolute;
+    pointer-events: none;
+    z-index: 4;
+    object-fit: contain;
+    transform: translate(-50%, -50%);
+    animation: starBurst 0.65s ease-out forwards;
+}
+
+@keyframes starBurst {
+    0% {
+        transform: translate(-50%, -50%) scale(0.5);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(0.7);
+        opacity: 0;
+    }
+}
+
+/* 覆盖层 */
+.result-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--panel-bg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    z-index: 50;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.result-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.primary-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Consistent hover feedback for every real button and the label controls
+   that visually behave like buttons (file/background/theme pickers). */
+button:not(:disabled),
+.upload-label,
+.file-btn,
+.outline-btn,
+.background-upload-btn,
+.accent-custom-picker {
+    transition: filter 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+@media (hover: hover) {
+    button:not(:disabled):hover,
+    .upload-label:hover,
+    .file-btn:hover,
+    .outline-btn:hover,
+    .background-upload-btn:hover,
+    .accent-custom-picker:hover {
+        filter: brightness(0.9);
+    }
+}
+

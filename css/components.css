@@ -1,0 +1,891 @@
+/* 直接加载 PNG，避免部分浏览器不显示 CSS 遮罩图标 */
+.themed-icon {
+    display: inline-block;
+    flex: 0 0 auto;
+    object-fit: contain;
+    vertical-align: -0.2em;
+    filter: url("#themeIconTint");
+    transition: filter 0.2s ease;
+}
+
+.back-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.svg-filter-defs {
+    position: fixed;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+.home-book-icon .home-book-image {
+    display: block;
+    width: 38px;
+    height: 38px;
+}
+
+.back-icon-btn,
+body[data-accent-theme] .back-icon-btn {
+    display: inline-grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 0;
+    border-radius: 9px;
+    background: transparent;
+    color: var(--primary-color);
+    cursor: pointer;
+}
+
+.back-icon-btn:hover,
+.back-icon-btn:focus-visible {
+    background: color-mix(in srgb, var(--primary-color) 10%, transparent);
+    outline: none;
+}
+
+.game-back-btn,
+body[data-accent-theme] .game-back-btn {
+    width: 44px;
+    height: 44px;
+    margin: -6px 0 -6px -8px;
+    border-radius: 12px;
+}
+
+.game-back-btn .back-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.sort-direction-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.sort-direction-icon {
+    width: 16px;
+    height: 16px;
+    transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.sort-direction-icon.descending {
+    transform: rotate(180deg);
+}
+
+.close-btn {
+    display: inline-grid;
+    place-items: center;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+}
+
+.close-image {
+    display: block;
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    filter: var(--close-filter);
+}
+
+.accent-theme-picker {
+    flex: 1 1 230px;
+    min-width: 0;
+}
+
+@media (min-width: 700px) {
+    .home-book-icon .home-book-image {
+        width: 72px;
+        height: 72px;
+    }
+}
+
+@media (max-width: 699px) {
+    .accent-theme-picker {
+        width: 100%;
+        flex: 0 1 auto;
+        justify-content: flex-start;
+    }
+}
+
+/* 首页词书入口：整张卡片可点击，提示文字保持在卡片下方 */
+.home-book-entry {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 7px;
+}
+
+.home-book-entry .home-book-card {
+    width: 100%;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+    appearance: none;
+}
+
+.home-book-entry .home-book-card:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 3px;
+}
+
+.home-book-details,
+.home-book-name,
+.home-book-days {
+    display: block;
+}
+
+.home-book-entry-hint {
+    display: block;
+    color: var(--ui-muted);
+    font-size: 0.76rem;
+    line-height: 1.35;
+    text-align: center;
+}
+
+@media (min-width: 700px) {
+    .home-book-entry {
+        grid-column: 1;
+        grid-row: 1 / 3;
+        min-height: 320px;
+    }
+
+    .home-book-entry .home-book-card {
+        flex: 1 1 auto;
+        min-height: 0;
+    }
+}
+
+@media (max-width: 699px) {
+    body.home-view .home-book-entry {
+        width: 100%;
+        margin-right: auto;
+        margin-left: auto;
+    }
+}
+
+/* Beta 1.0：错词复习入口 */
+.review-wrong-btn {
+    min-height: 36px;
+    padding: 7px 12px;
+    border: 1.5px solid var(--primary-color);
+    border-radius: 9px;
+    background: var(--primary-color);
+    color: #FFFFFF;
+    font: inherit;
+    font-size: 0.86rem;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.review-wrong-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.review-wrong-btn[aria-pressed="true"] {
+    background: color-mix(in srgb, var(--primary-color) 18%, var(--ui-surface));
+    color: var(--primary-color);
+}
+
+.import-action-group,
+.settings-import-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.settings-add-vocabulary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--ui-divider);
+    color: var(--ui-muted);
+    font-size: 0.8rem;
+    line-height: 1.4;
+}
+
+.settings-add-vocabulary[hidden] {
+    display: none;
+}
+
+.settings-add-vocabulary .file-btn {
+    background: transparent;
+}
+
+/* 设置页自定义背景 */
+.background-setting-row {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 8px 16px;
+    margin-top: 16px;
+}
+
+.background-setting-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+}
+
+.background-upload-btn,
+.background-clear-btn {
+    min-height: 34px;
+    padding: 6px 12px;
+    border: 1px solid var(--primary-color);
+    border-radius: 8px;
+    background: var(--ui-surface);
+    color: var(--primary-color);
+    font: inherit;
+    font-size: 0.84rem;
+    cursor: pointer;
+}
+
+.background-clear-btn:disabled {
+    opacity: 0.42;
+    cursor: not-allowed;
+}
+
+.background-setting-status {
+    grid-column: 2;
+    color: var(--ui-muted);
+    font-size: 0.76rem;
+    text-align: right;
+}
+
+/* 自定义背景只替换页面底图，卡片和弹窗仍保留可读底色 */
+body.has-custom-background {
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.34)),
+        var(--custom-background-image);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+body.dark-mode.has-custom-background {
+    background-image:
+        linear-gradient(rgba(18, 20, 26, 0.48), rgba(18, 20, 26, 0.48)),
+        var(--custom-background-image);
+}
+
+/* 添加、OCR 与编辑词汇 */
+#addVocabularyModal,
+#editWordModal {
+    z-index: 310;
+}
+
+#ocrPreviewModal {
+    z-index: 330;
+}
+
+.vocabulary-editor-content {
+    width: min(560px, 94vw);
+    max-width: 560px;
+}
+
+.vocabulary-editor-body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.manual-word-form {
+    display: grid;
+    gap: 12px;
+}
+
+.manual-word-form label {
+    display: grid;
+    gap: 6px;
+    color: var(--text-color);
+    font-size: 0.88rem;
+}
+
+.manual-word-form input,
+.manual-word-form textarea,
+#ocrRecognizedText {
+    width: 100%;
+    padding: 9px 11px;
+    border: 1.5px solid var(--primary-color);
+    border-radius: 9px;
+    background: color-mix(in srgb, var(--ui-surface) var(--interface-opacity-percent), transparent);
+    color: var(--text-color);
+    font: inherit;
+    line-height: 1.5;
+    outline: none;
+    resize: vertical;
+    user-select: text;
+}
+
+.manual-word-form input:focus,
+.manual-word-form textarea:focus,
+#ocrRecognizedText:focus {
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary-color) 20%, transparent);
+}
+
+.vocabulary-import-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--ui-muted);
+    font-size: 0.78rem;
+}
+
+.vocabulary-import-divider::before,
+.vocabulary-import-divider::after {
+    content: '';
+    height: 1px;
+    flex: 1;
+    background: var(--ui-divider);
+}
+
+.vocabulary-import-actions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.vocabulary-import-actions .outline-btn {
+    margin: 0;
+    font-size: 0.82rem;
+}
+
+.vocabulary-editor-note {
+    color: var(--ui-muted);
+    line-height: 1.45;
+}
+
+.ocr-preview-content {
+    width: min(880px, 96vw);
+    max-width: 880px;
+    max-height: 92vh;
+}
+
+.ocr-preview-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(240px, 0.8fr);
+    grid-template-rows: auto minmax(260px, 1fr);
+    gap: 12px;
+}
+
+.ocr-summary {
+    grid-column: 1 / -1;
+    color: var(--ui-muted);
+    font-size: 0.85rem;
+}
+
+#ocrRecognizedText {
+    min-height: 300px;
+}
+
+.ocr-pair-preview {
+    min-height: 0;
+    overflow: auto;
+    padding: 10px;
+    border: 1px solid var(--ui-divider);
+    border-radius: 9px;
+}
+
+.ocr-preview-row {
+    display: grid;
+    grid-template-columns: minmax(90px, 0.8fr) minmax(120px, 1.2fr);
+    gap: 8px;
+    padding: 7px 4px;
+    border-bottom: 1px solid var(--ui-divider);
+    font-size: 0.82rem;
+}
+
+.ocr-preview-row:last-child {
+    border-bottom: 0;
+}
+
+.ocr-preview-empty {
+    color: var(--ui-muted);
+    text-align: center;
+}
+
+.word-action-cell {
+    gap: 6px;
+}
+
+.word-edit-btn {
+    border: 1px solid var(--primary-color);
+    border-radius: 7px;
+    background: transparent;
+    color: var(--primary-color);
+    padding: 5px 8px;
+    cursor: pointer;
+}
+
+@media (max-width: 620px) {
+    .settings-add-vocabulary,
+    .ocr-preview-body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .vocabulary-import-actions {
+        grid-template-columns: 1fr;
+    }
+
+    #ocrRecognizedText {
+        min-height: 220px;
+    }
+
+    .ocr-pair-preview {
+        max-height: 220px;
+    }
+}
+
+/* XLSX 导入预览 */
+.xlsx-import-modal {
+    z-index: 320;
+    padding: 16px;
+}
+
+.xlsx-import-content {
+    width: min(980px, 96vw);
+    max-height: min(860px, 92vh);
+    display: flex;
+    flex-direction: column;
+}
+
+.xlsx-import-subtitle {
+    margin: 4px 0 0;
+    color: var(--text-color);
+    font-size: 0.82rem;
+    opacity: 0.7;
+}
+
+.xlsx-import-body {
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    overflow: hidden;
+}
+
+.xlsx-import-options {
+    display: grid;
+    grid-template-columns: minmax(150px, 1.4fr) repeat(3, minmax(105px, 0.8fr));
+    gap: 10px;
+}
+
+.xlsx-import-options label {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    color: var(--text-color);
+    font-size: 0.8rem;
+}
+
+.xlsx-import-options select,
+.xlsx-import-options input {
+    min-height: 38px;
+    width: 100%;
+    padding: 7px 9px;
+    border: 1.5px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--ui-surface, var(--card-bg));
+    color: var(--text-color);
+    font: inherit;
+}
+
+.xlsx-import-summary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(90px, 1fr));
+    gap: 8px;
+}
+
+.xlsx-summary-item {
+    min-height: 68px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    border: 1px solid var(--ui-divider, var(--border-color));
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--primary-color) 8%, var(--ui-surface));
+}
+
+.xlsx-summary-item strong {
+    color: var(--primary-color);
+    font-size: 1.25rem;
+}
+
+.xlsx-summary-item span {
+    color: var(--text-color);
+    font-size: 0.78rem;
+}
+
+.xlsx-preview-table {
+    min-height: 180px;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid var(--ui-divider, var(--border-color));
+    border-radius: 10px;
+}
+
+.xlsx-preview-header,
+.xlsx-preview-row {
+    display: grid;
+    grid-template-columns: 54px minmax(130px, 1fr) minmax(180px, 1.7fr) minmax(90px, 0.7fr);
+    gap: 10px;
+    align-items: center;
+}
+
+.xlsx-preview-header {
+    padding: 9px 10px;
+    background: var(--primary-color);
+    color: #FFFFFF;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.xlsx-preview-body {
+    min-height: 0;
+    flex: 1 1 auto;
+    overflow: auto;
+}
+
+.xlsx-preview-row {
+    min-height: 46px;
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--ui-divider, var(--border-color));
+    color: var(--text-color);
+    font-size: 0.8rem;
+}
+
+.xlsx-preview-row > span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.xlsx-preview-row.status-warning {
+    background: rgba(255, 193, 7, 0.1);
+}
+
+.xlsx-preview-row.status-rejected {
+    opacity: 0.68;
+    background: rgba(180, 70, 70, 0.08);
+}
+
+.xlsx-row-status {
+    color: var(--primary-color);
+    font-size: 0.74rem;
+}
+
+.xlsx-preview-note {
+    margin: 0;
+    color: var(--text-color);
+    font-size: 0.76rem;
+    opacity: 0.72;
+}
+
+.xlsx-import-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.word-phonetic {
+    display: block;
+    margin-top: 3px;
+    color: var(--primary-color);
+    font-size: 0.78rem;
+    line-height: 1.25;
+    font-family: "Segoe UI", "Arial Unicode MS", sans-serif;
+}
+
+.range-selection-content {
+    width: min(92vw, 560px);
+}
+
+.range-selection-body {
+    display: grid;
+    gap: 14px;
+}
+
+.range-selection-body label {
+    display: grid;
+    gap: 6px;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.range-selection-body input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--card-bg);
+    color: var(--text-color);
+    user-select: text;
+}
+
+.range-selection-summary {
+    margin: 0;
+    min-height: 1.5em;
+    color: var(--primary-color);
+    font-size: 0.88rem;
+    line-height: 1.45;
+}
+
+body.custom-layout-active .game-container,
+body.custom-layout-active .info-bar {
+    max-width: 1070px !important;
+}
+
+@media (max-width: 699px) {
+    .xlsx-import-modal {
+        padding: 8px;
+    }
+
+    .xlsx-import-content {
+        width: 100%;
+        max-height: 96vh;
+    }
+
+    .xlsx-import-options {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .xlsx-import-summary {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .xlsx-summary-item {
+        min-height: 54px;
+    }
+
+    .xlsx-preview-header,
+    .xlsx-preview-row {
+        grid-template-columns: 34px minmax(82px, 0.8fr) minmax(120px, 1.4fr) minmax(66px, 0.7fr);
+        gap: 6px;
+    }
+
+    .xlsx-preview-header,
+    .xlsx-preview-row {
+        padding-right: 7px;
+        padding-left: 7px;
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 699px) {
+    .word-list-controls {
+        flex-wrap: wrap;
+    }
+
+    .word-search-control,
+    .review-wrong-btn {
+        flex: 1 0 100%;
+        max-width: none;
+    }
+
+    .background-setting-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .background-setting-actions {
+        justify-content: flex-start;
+    }
+
+    .background-setting-status {
+        grid-column: 1;
+        text-align: left;
+    }
+}
+
+/* Beta 1.2：首次使用引导 */
+.onboarding-overlay {
+    z-index: 80;
+    padding: clamp(16px, 4vw, 36px);
+    background: var(--page-fill);
+}
+
+body.onboarding-active .header,
+body.onboarding-active .info-bar {
+    display: none !important;
+}
+
+body.onboarding-active .game-container,
+body.onboarding-active .board {
+    width: 100%;
+    max-width: none;
+    height: 100vh;
+    min-height: 100vh;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+}
+
+.onboarding-card {
+    position: relative;
+    width: min(88vw, 620px);
+    min-height: min(68vh, 420px);
+    padding: clamp(54px, 8vw, 76px) clamp(24px, 7vw, 62px) clamp(34px, 6vw, 52px);
+    border: clamp(3px, 0.65vw, 6px) solid var(--primary-color);
+    border-radius: clamp(34px, 7vw, 58px);
+    background: var(--ui-surface);
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 18px 44px var(--shadow-color);
+}
+
+.onboarding-close-btn {
+    position: absolute;
+    top: clamp(16px, 3vw, 24px);
+    right: clamp(16px, 3vw, 24px);
+}
+
+.onboarding-title {
+    margin: 0;
+    color: var(--text-color);
+    font-size: clamp(1.45rem, 4vw, 2rem);
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+.onboarding-lines {
+    align-self: center;
+    display: flex;
+    min-height: 150px;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(10px, 2vh, 18px);
+    padding: 22px 0;
+}
+
+.onboarding-line {
+    margin: 0;
+    color: var(--text-color);
+    font-size: clamp(1rem, 2.8vw, 1.28rem);
+    line-height: 1.5;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.onboarding-line.visible {
+    opacity: 1;
+}
+
+.onboarding-line.leaving {
+    opacity: 0;
+}
+
+.onboarding-brand-line {
+    font-size: clamp(1.32rem, 4.2vw, 1.72rem);
+    font-weight: 500;
+}
+
+.onboarding-next-btn {
+    justify-self: center;
+    display: grid;
+    width: 76px;
+    height: 58px;
+    padding: 0;
+    place-items: center;
+    border: 0;
+    border-radius: 18px;
+    background: transparent;
+    cursor: pointer;
+}
+
+.onboarding-next-btn:hover,
+.onboarding-next-btn:focus-visible {
+    background: color-mix(in srgb, var(--primary-color) 10%, transparent);
+    outline: none;
+}
+
+.onboarding-next-icon {
+    width: 56px;
+    height: 56px;
+    transform: rotate(180deg);
+}
+
+/* Beta 1.2：网页内统一确认弹窗 */
+#confirmModal {
+    z-index: 170;
+}
+
+.confirm-modal-content {
+    width: min(90%, 410px);
+}
+
+.confirm-modal-body {
+    gap: 18px;
+}
+
+.confirm-modal-message {
+    margin: 2px 0 4px;
+    color: var(--text-color);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+.confirm-danger-btn {
+    background: var(--error-color);
+}
+
+body[data-accent-theme] .confirm-danger-btn {
+    background: var(--error-color);
+}
+
+@media (max-width: 699px) {
+    .onboarding-card {
+        width: min(94vw, 520px);
+        min-height: min(66vh, 430px);
+        padding-right: 24px;
+        padding-left: 24px;
+    }
+
+    .onboarding-lines {
+        min-height: 170px;
+    }
+}
+
+@media (max-height: 520px) {
+    .onboarding-card {
+        min-height: 88vh;
+        padding-top: 46px;
+        padding-bottom: 20px;
+    }
+
+    .onboarding-lines {
+        min-height: 108px;
+        gap: 6px;
+        padding: 10px 0;
+    }
+
+    .onboarding-next-btn {
+        height: 44px;
+    }
+
+    .onboarding-next-icon {
+        width: 44px;
+        height: 44px;
+    }
+}

@@ -1,0 +1,64 @@
+/* ==========================================
+   PNG 图标样式（替换 Emoji）
+   ========================================== */
+.emoji-icon {
+    display: inline-block;
+    vertical-align: -0.15em;
+    margin-right: 4px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+/* 三种尺寸 */
+.icon-sm {
+    width: 16px;
+    height: 16px;
+}
+
+.icon-md {
+    width: 22px;
+    height: 22px;
+}
+
+.icon-lg {
+    width: 28px;
+    height: 28px;
+}
+
+/* 欢迎页标题：图标与文字居中对齐 */
+.welcome-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin: 0;
+}
+
+/* 欢迎页 label 图标与文字对齐 */
+.welcome-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* 主题按钮里的图标不需要右侧留白 */
+.theme-btn .emoji-icon {
+    margin-right: 0;
+}
+
+/* 首页完成提示里的图标垂直对齐 */
+#homeMessage .emoji-icon {
+    vertical-align: -0.1em;
+}
+
+/* 
+   如果你找的是【黑色单色图标】，深色模式下会看不清，
+   取消下面这段注释让图标在深色模式下反白。
+   如果你找的是【彩色图标】，保持注释即可。
+*/
+/*
+body.dark-mode .emoji-icon {
+    filter: brightness(0) invert(1) brightness(0.9);
+}
+*/
+

@@ -1,0 +1,432 @@
+/* ========== 首页布局 ========== */
+#homeOverlay {
+    background: #fff;
+    padding: 0 12px 18px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+body.dark-mode #homeOverlay {
+    background: var(--bg-color);
+}
+
+.home-content-wrapper {
+    width: 100%;
+    max-width: 320px;
+    gap: 12px;
+    margin-top: 0;
+}
+
+.home-card {
+    background: #F0ECFC;
+    border: 1.5px solid #1E2B55;
+    border-radius: 17px;
+}
+
+body.dark-mode .home-card {
+    background: #2B2D35;
+    border-color: #5A6270;
+}
+
+.home-book-card {
+    min-height: 94px;
+    padding: 12px 10px;
+    gap: 14px;
+    border-radius: 17px;
+}
+
+.home-book-icon svg {
+    width: 38px;
+    height: 38px;
+    fill: #292638;
+}
+
+body.dark-mode .home-book-icon svg {
+    fill: none;
+}
+
+.home-book-name {
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+
+.home-book-days {
+    font-size: 0.85rem;
+    color: #E96BC1;
+}
+
+.home-rings-card {
+    height: 178px;
+    min-height: 178px;
+    padding: 10px 8px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.home-dual-rings {
+    min-height: 145px;
+}
+
+.ring-half {
+    min-width: 0;
+}
+
+.semi-ring {
+    width: 76px;
+    height: 150px;
+    overflow: visible;
+}
+
+.ring-bg-path {
+    stroke: #D8D3E9;
+    stroke-width: 6;
+}
+
+.ring-fg-path {
+    stroke: #B3A1F9;
+    stroke-width: 6;
+}
+
+.ring-text {
+    margin: 0 5px;
+    white-space: nowrap;
+}
+
+.ring-main-val {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #292638;
+}
+
+.ring-label {
+    font-size: 0.85rem;
+    color: #6F6A7A;
+}
+
+.home-bottom-area {
+    margin-top: 1px;
+    gap: 8px;
+}
+
+.home-start-btn {
+    background-color: #4776C9 !important;
+    border-radius: 10px !important;
+    max-width: 176px;
+    padding: 13px 0 !important;
+    font-size: 1.2rem !important;
+    font-weight: 400 !important;
+}
+
+body.dark-mode .home-start-btn {
+    background-color: var(--primary-color) !important;
+}
+
+@media (max-width: 600px) {
+    .header {
+        padding: 15px 20px 8px;
+    }
+
+    .header h1 {
+        font-size: 1.25rem;
+        font-weight: 400;
+        letter-spacing: 0;
+    }
+
+    .header-actions .pure-icon-btn {
+        padding: 2px;
+    }
+
+    .game-container {
+        padding: 0 15px 15px;
+    }
+
+    .board {
+        padding: 15px;
+    }
+
+    #homeOverlay {
+        padding: 0 0 18px;
+    }
+
+    .home-content-wrapper {
+        max-width: 100%;
+        gap: 12px;
+    }
+
+    .home-rings-card {
+        height: 178px;
+        min-height: 178px;
+        padding: 8px 5px;
+    }
+
+    .semi-ring {
+        width: 70px;
+        height: 145px;
+    }
+
+    .ring-text {
+        margin: 0 3px;
+    }
+
+    .ring-main-val {
+        font-size: 1.12rem;
+    }
+}
+
+/* 完整圆环进度：首页双圆环 */
+.home-rings-card {
+    height: auto;
+    min-height: 0;
+    padding: 22px 12px;
+    border-radius: 30px;
+    display: block;
+}
+
+.home-dual-rings {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 18px;
+    width: 100%;
+    min-height: 0;
+}
+
+.ring-item {
+    position: relative;
+    width: min(42%, 150px);
+    aspect-ratio: 1;
+    flex: 0 1 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.progress-ring {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    transform: rotate(-90deg);
+}
+
+.ring-bg-path,
+.ring-fg-path {
+    fill: none;
+    stroke-width: 7;
+}
+
+.ring-bg-path {
+    stroke: #E7E7E7;
+}
+
+.ring-fg-path {
+    stroke: #B3A1F9;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.8s ease-in-out, opacity 0.2s;
+}
+
+.ring-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.ring-main-val {
+    font-size: clamp(1rem, 4vw, 1.25rem);
+    font-weight: 400;
+    line-height: 1.25;
+    color: #292638;
+}
+
+.ring-label {
+    margin-top: 4px;
+    font-size: 0.85rem;
+    color: #888;
+}
+
+body.dark-mode .ring-bg-path {
+    stroke: #444;
+}
+
+body.dark-mode .ring-main-val {
+    color: #E0E0E0;
+}
+
+@media (max-width: 360px) {
+    .home-dual-rings {
+        gap: 10px;
+    }
+
+    .ring-item {
+        width: 44%;
+    }
+}
+
+.home-timer-control {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--text-color);
+    font-size: 0.88rem;
+    cursor: pointer;
+}
+
+.home-timer-control input {
+    width: 17px;
+    height: 17px;
+    margin: 0;
+    accent-color: var(--primary-color);
+}
+
+.home-control-help {
+    display: block;
+    margin-top: 4px;
+    color: #888;
+    font-size: 0.76rem;
+    line-height: 1.35;
+}
+
+body.dark-mode .home-control-help {
+    color: #aaa;
+}
+
+.home-session-time {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ========== 首页最终布局修正 ========== */
+body {
+    min-height: 100dvh;
+    height: 100dvh;
+}
+
+.header {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 800px;
+}
+
+.game-container {
+    min-height: 0;
+    width: 100%;
+    flex: 1 1 auto;
+}
+
+.board {
+    min-height: 0;
+    height: 100%;
+}
+
+#homeOverlay {
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 14px 24px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.home-content-wrapper {
+    width: 100%;
+    max-width: 320px;
+    flex: 0 0 auto;
+    margin: 0 auto;
+    gap: 12px;
+}
+
+.home-book-card {
+    min-height: 94px;
+}
+
+.home-rings-card {
+    width: 100%;
+    min-height: 178px;
+    padding: 16px 12px;
+}
+
+.home-dual-rings {
+    width: 100%;
+    gap: 12px;
+}
+
+.ring-item {
+    width: min(42%, 150px);
+    flex: 0 1 150px;
+    min-width: 0;
+}
+
+.home-bottom-area {
+    width: 100%;
+    margin-top: 1px;
+    align-items: center;
+    gap: 8px;
+}
+
+.home-start-btn {
+    width: 176px !important;
+    max-width: 100%;
+    min-height: 54px;
+    padding: 12px 8px !important;
+}
+
+.home-message {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+}
+
+@media (max-height: 620px) {
+    #homeOverlay {
+        padding-bottom: 12px;
+    }
+
+    .home-content-wrapper {
+        gap: 8px;
+    }
+
+    .home-book-card {
+        min-height: 78px;
+    }
+
+    .home-rings-card {
+        min-height: 145px;
+        padding: 10px;
+    }
+
+    .home-start-btn {
+        min-height: 46px;
+    }
+}
+
+@media (max-width: 360px) {
+    #homeOverlay {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    .home-rings-card {
+        padding-right: 8px;
+        padding-left: 8px;
+    }
+
+    .home-dual-rings {
+        gap: 8px;
+    }
+
+    .ring-item {
+        width: 45%;
+    }
+
+    .ring-main-val {
+        font-size: clamp(0.92rem, 4vw, 1.15rem);
+    }
+}
+

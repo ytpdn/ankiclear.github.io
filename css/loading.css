@@ -1,0 +1,67 @@
+.loading-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    background: rgba(245, 240, 230, 0.92);
+    background: color-mix(in srgb, var(--page-fill, var(--bg-color)) 88%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.22s ease, visibility 0.22s ease;
+}
+
+.loading-overlay.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+body.dark-mode .loading-overlay {
+    background: rgba(30, 30, 36, 0.92);
+    background: color-mix(in srgb, var(--page-fill, var(--bg-color)) 88%, transparent);
+}
+
+.loading-panel {
+    display: grid;
+    min-width: 168px;
+    place-items: center;
+    gap: 14px;
+    padding: 24px 28px;
+    border: 1px solid var(--border-color);
+    border-color: color-mix(in srgb, var(--primary-color) 25%, transparent);
+    border-radius: 22px;
+    background: var(--card-bg);
+    background: color-mix(in srgb, var(--card-bg) 94%, transparent);
+    box-shadow: 0 14px 40px rgba(30, 42, 60, 0.16);
+}
+
+.loading-spinner {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    animation: loading-spin 0.9s linear infinite;
+}
+
+.loading-message {
+    margin: 0;
+    color: var(--text-color);
+    font-size: 0.98rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+}
+
+@keyframes loading-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .loading-spinner {
+        animation-duration: 1.8s;
+    }
+}

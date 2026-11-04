@@ -1,0 +1,533 @@
+/* ==========================================
+   响应式首页与全部单词页
+   ========================================== */
+.home-book-icon {
+    appearance: none;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 10px;
+    flex: 0 0 auto;
+}
+
+.home-book-icon:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 4px;
+}
+
+.home-book-icon img {
+    display: block;
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+}
+
+@media (min-width: 700px) {
+    #homeOverlay {
+        justify-content: center;
+        padding: clamp(22px, 4vw, 42px);
+    }
+
+    .home-content-wrapper {
+        display: grid;
+        grid-template-columns: minmax(235px, 0.92fr) minmax(300px, 1.08fr);
+        grid-template-rows: minmax(190px, 1fr) auto;
+        gap: clamp(20px, 4vw, 34px);
+        width: 100%;
+        max-width: 680px;
+        margin: auto;
+        align-items: stretch;
+    }
+
+    .home-book-card {
+        grid-column: 1;
+        grid-row: 1 / 3;
+        min-height: 320px;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        gap: 18px;
+        border-radius: 42px;
+    }
+
+    .home-book-icon img {
+        width: 72px;
+        height: 72px;
+    }
+
+    .home-book-name {
+        font-size: 1.35rem;
+    }
+
+    .home-rings-card {
+        grid-column: 2;
+        grid-row: 1;
+        min-height: 190px;
+        border-radius: 30px;
+        padding: 18px;
+    }
+
+    .home-bottom-area {
+        grid-column: 2;
+        grid-row: 2;
+        align-self: center;
+        min-height: 72px;
+        justify-content: center;
+    }
+}
+
+#wordListOverlay {
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: clamp(14px, 3vw, 28px);
+    overflow: hidden;
+    background: #FFFFFF;
+}
+
+body.dark-mode #wordListOverlay {
+    background: var(--bg-color);
+}
+
+.word-list-shell {
+    min-height: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.word-list-toolbar {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.word-list-back-btn,
+.sort-direction-btn {
+    border: 1.5px solid var(--border-color);
+    background: var(--card-bg);
+    color: var(--text-color);
+    border-radius: 9px;
+    padding: 8px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.word-list-controls {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 14px;
+    min-width: 0;
+}
+
+.word-search-control {
+    flex: 1 1 190px;
+    max-width: 280px;
+}
+
+.word-search-control input {
+    width: 100%;
+    min-height: 36px;
+    padding: 7px 11px;
+    border: 1.5px solid var(--border-color);
+    border-radius: 9px;
+    outline: none;
+    background: var(--card-bg);
+    color: var(--text-color);
+    font: inherit;
+}
+
+.word-search-control input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary-color) 22%, transparent);
+}
+
+.word-search-control input::placeholder {
+    color: var(--text-color);
+    opacity: 0.56;
+}
+
+.wrong-only-control,
+.sort-control {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.wrong-only-control input {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--primary-color);
+}
+
+.sort-control img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+}
+
+.sort-control select {
+    min-width: 102px;
+    border: 1.5px solid var(--border-color);
+    border-radius: 8px;
+    padding: 7px 28px 7px 9px;
+    background: var(--card-bg);
+    color: var(--text-color);
+}
+
+.word-list-header,
+.word-row {
+    display: grid;
+    grid-template-columns: minmax(120px, 1.15fr) minmax(160px, 1.6fr) minmax(74px, 0.65fr) minmax(140px, 1fr) minmax(116px, 0.7fr);
+    gap: 14px;
+    align-items: center;
+}
+
+.word-list-header {
+    flex: 0 0 auto;
+    padding: 0 30px 8px 12px;
+    border-bottom: 2px solid #176487;
+    color: var(--text-color);
+    font-size: 0.84rem;
+    font-weight: 600;
+}
+
+.word-list-content {
+    min-height: 0;
+    flex: 1 1 auto;
+    display: flex;
+    gap: 10px;
+}
+
+.word-list-scroll {
+    min-width: 0;
+    min-height: 0;
+    flex: 1 1 auto;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+    padding-right: 4px;
+}
+
+.word-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.letter-group-title {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    padding: 6px 10px 4px;
+    background: #FFFFFF;
+    color: #176487;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-bottom: 1px solid #9DBCCA;
+}
+
+body.dark-mode .letter-group-title {
+    background: var(--bg-color);
+    color: var(--primary-color);
+}
+
+.word-row {
+    min-height: 52px;
+    padding: 8px 12px;
+    border-bottom: 1px solid #176487;
+    font-size: 0.9rem;
+}
+
+.word-cell {
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.meaning-cell {
+    opacity: 0.86;
+    overflow-wrap: anywhere;
+}
+
+.error-cell {
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
+
+.mastery-cell {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 8px;
+}
+
+.mastery-track {
+    height: 8px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #E4E7EA;
+}
+
+.mastery-fill {
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #E96BC1, #4776C9);
+}
+
+.mastery-value {
+    min-width: 36px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.8rem;
+}
+
+.word-action-cell {
+    display: flex;
+    justify-content: center;
+}
+
+.word-delete-btn,
+.word-edit-btn,
+.export-vocabulary-btn {
+    min-height: 34px;
+    padding: 6px 11px;
+    border: 1.5px solid var(--primary-color);
+    border-radius: 8px;
+    background: var(--ui-surface, var(--card-bg));
+    color: var(--primary-color);
+    font: inherit;
+    font-size: 0.82rem;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.word-delete-btn:hover,
+.word-delete-btn:focus-visible,
+.word-edit-btn:hover,
+.word-edit-btn:focus-visible,
+.export-vocabulary-btn:hover,
+.export-vocabulary-btn:focus-visible {
+    background: var(--primary-color);
+    color: #FFFFFF;
+}
+
+.word-list-empty {
+    margin: 40px 0;
+    text-align: center;
+    opacity: 0.65;
+}
+
+.word-list-load-more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 18px 12px 24px;
+    color: var(--text-color);
+    font-size: 0.86rem;
+}
+
+.word-list-load-more[hidden] {
+    display: none;
+}
+
+.word-list-load-more .secondary-btn {
+    min-width: 104px;
+}
+
+@media (max-width: 699px) {
+    #homeOverlay {
+        padding: 0 12px 20px;
+    }
+
+    .home-content-wrapper {
+        display: flex;
+        max-width: 440px;
+        width: 100%;
+        gap: 12px;
+    }
+
+    .home-book-card {
+        min-height: clamp(76px, 19vh, 110px);
+        border-radius: 24px;
+    }
+
+    .home-rings-card {
+        min-height: clamp(145px, 34vh, 210px);
+        border-radius: 30px;
+    }
+
+    .home-bottom-area {
+        min-height: 58px;
+        justify-content: center;
+    }
+
+    #wordListOverlay {
+        padding: 12px 10px;
+    }
+
+    .word-list-shell {
+        gap: 10px;
+    }
+
+    .word-list-toolbar {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .word-list-back-btn {
+        align-self: flex-start;
+    }
+
+    .word-list-controls {
+        width: 100%;
+        justify-content: space-between;
+        gap: 7px;
+    }
+
+    .sort-control > span {
+        display: none;
+    }
+
+    .sort-control select {
+        min-width: 94px;
+        max-width: 116px;
+    }
+
+    .word-list-header {
+        display: none;
+    }
+
+    .word-list-content {
+        gap: 4px;
+    }
+
+    .word-row {
+        grid-template-columns: minmax(0, 1fr) auto auto;
+        gap: 5px 10px;
+        padding: 9px 8px;
+    }
+
+    .word-cell {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .error-cell {
+        grid-column: 2;
+        grid-row: 1;
+        font-size: 0.78rem;
+    }
+
+    .error-cell::before {
+        content: "错 ";
+        opacity: 0.65;
+    }
+
+    .meaning-cell {
+        grid-column: 1 / 4;
+        grid-row: 2;
+        font-size: 0.82rem;
+    }
+
+    .mastery-cell {
+        grid-column: 1 / 4;
+        grid-row: 3;
+    }
+
+    .word-action-cell {
+        grid-column: 3;
+        grid-row: 1;
+    }
+
+    .word-delete-btn,
+    .word-edit-btn {
+        min-height: 28px;
+        padding: 4px 8px;
+        font-size: 0.74rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .header {
+        padding: 8px 12px 6px;
+    }
+
+    .header h1 {
+        font-size: 1rem;
+    }
+
+    .game-container {
+        padding: 0 7px 7px;
+    }
+
+    .board {
+        padding: 8px;
+        border-width: 3px;
+    }
+
+    #homeOverlay {
+        padding: 0 6px 10px;
+    }
+
+    .home-content-wrapper {
+        gap: 8px;
+    }
+
+    .home-book-card {
+        min-height: 68px;
+        padding: 8px 10px;
+    }
+
+    .home-rings-card {
+        min-height: 132px;
+        padding: 8px;
+    }
+
+    .home-start-btn {
+        min-height: 44px;
+        font-size: 1rem !important;
+    }
+
+    .word-list-controls {
+        flex-wrap: wrap;
+    }
+
+    .wrong-only-control,
+    .sort-control,
+    .sort-direction-btn {
+        font-size: 0.76rem;
+    }
+
+    .sort-direction-btn {
+        padding: 7px 8px;
+    }
+
+}
+
+@media (max-height: 520px) and (max-width: 699px) {
+    .home-book-card {
+        min-height: 62px;
+    }
+
+    .home-rings-card {
+        min-height: 120px;
+    }
+
+    .home-dual-rings {
+        gap: 6px;
+    }
+
+    .home-bottom-area {
+        min-height: 46px;
+    }
+}
+

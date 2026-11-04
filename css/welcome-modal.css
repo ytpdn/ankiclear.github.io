@@ -1,0 +1,265 @@
+/* ========== 欢迎页 ========== */
+.welcome-subtitle {
+    margin: 6px 0 24px;
+    font-size: 0.92rem;
+    opacity: 0.75;
+    text-align: center;
+}
+
+.welcome-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: 90%;
+    max-width: 440px;
+    margin-bottom: 24px;
+}
+
+.welcome-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.welcome-label {
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+.welcome-bank-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.welcome-bank-info {
+    font-size: 0.9rem;
+    opacity: 0.85;
+}
+
+.welcome-hint {
+    font-size: 0.72rem;
+    opacity: 0.6;
+    line-height: 1.45;
+    margin-top: 2px;
+}
+
+.welcome-input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.welcome-input-row input {
+    width: 100px;
+}
+
+.welcome-preview {
+    padding: 12px 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    font-size: 0.92rem;
+    text-align: center;
+    line-height: 1.65;
+}
+
+.welcome-preview b {
+    color: var(--primary-color);
+}
+
+.welcome-start-btn {
+    padding: 12px 36px;
+    font-size: 1rem;
+}
+
+/* 模态框基础 */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.modal-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background: var(--bg-color);
+    width: 90%;
+    max-width: 420px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    transform: translateY(20px);
+    transition: transform 0.3s;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-overlay.show .modal-content {
+    transform: translateY(0);
+}
+
+.modal-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.modal-body {
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow-y: auto;
+}
+
+.modal-footer {
+    padding: 12px 20px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-shrink: 0;
+    background: var(--bg-color);
+}
+
+.input-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+select,
+.custom-input,
+.upload-label {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    color: var(--text-color);
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.custom-input {
+    width: 90px;
+    cursor: text;
+}
+
+.upload-label {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    display: inline-block;
+}
+
+.file-upload {
+    display: none;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 6px;
+}
+
+.secondary-btn {
+    background: transparent;
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.secondary-btn:hover {
+    background: var(--panel-bg);
+}
+
+#customModal {
+    z-index: 150;
+}
+
+/* Toast */
+.toast {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 16px;
+    z-index: 200;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.toast.show {
+    opacity: 1;
+}
+
+@media (max-width: 600px) {
+    .board {
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .card {
+        font-size: 1rem;
+        height: 70px;
+        min-height: 70px;
+        margin-bottom: 10px;
+    }
+
+    .info-bar {
+        font-size: 0.85rem;
+        padding: 4px 15px 8px;
+    }
+
+    .header h1 {
+        font-size: 1.2rem;
+    }
+
+    .icon-btn {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+}
+

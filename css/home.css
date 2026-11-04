@@ -1,0 +1,232 @@
+/* ========== 紧凑版新版首页 ========== */
+#homeOverlay {
+    background: #FAFAFA;
+    justify-content: flex-start;
+    padding: 20px;
+    align-items: center;
+}
+
+body.dark-mode #homeOverlay {
+    background: var(--panel-bg);
+}
+
+/* 收窄整体宽度，使其更紧凑 */
+.home-content-wrapper {
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.home-card {
+    background: #F6F3FC;
+    border-radius: 12px;
+    padding: 12px 16px;
+    border: 1.5px solid #333;
+}
+
+body.dark-mode .home-card {
+    background: #2B2D35;
+    border-color: #5A6270;
+}
+
+/* 词库信息卡片 */
+.home-book-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.home-book-icon {
+    color: #2B2B2B;
+    display: flex;
+    align-items: center;
+}
+
+body.dark-mode .home-book-icon {
+    color: #E0E0E0;
+}
+
+.home-book-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2B2B2B;
+}
+
+body.dark-mode .home-book-name {
+    color: #E0E0E0;
+}
+
+.home-book-days {
+    font-size: 0.75rem;
+    color: #F2A1C9;
+    margin-top: 2px;
+}
+
+/* 双圆环卡片 */
+.home-rings-card {
+    padding: 16px 10px;
+}
+
+.home-dual-rings {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* 一半容器 */
+.ring-half {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.left-half {
+    justify-content: flex-end;
+}
+
+.right-half {
+    justify-content: flex-start;
+}
+
+/* 固定半圆大小，绝不拉伸变形 */
+.semi-ring {
+    width: 36px;
+    height: 80px;
+    flex-shrink: 0;
+}
+
+/* 灰色底环，确保看得见 */
+.ring-bg-path {
+    stroke: #D0D0D0;
+    stroke-width: 6;
+}
+
+body.dark-mode .ring-bg-path {
+    stroke: #444;
+}
+
+/* 紫色进度环 */
+.ring-fg-path {
+    stroke: #B3A1F9;
+    stroke-width: 6;
+    transition: stroke-dashoffset 0.8s ease-in-out;
+}
+
+body.dark-mode .ring-fg-path {
+    stroke: var(--primary-color);
+}
+
+/* 文字紧贴圆环 */
+.ring-text {
+    display: flex;
+    flex-direction: column;
+    margin: 0 8px;
+}
+
+.left-text {
+    align-items: flex-end;
+}
+
+.right-text {
+    align-items: flex-start;
+}
+
+.ring-main-val {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #2B2B2B;
+    line-height: 1.2;
+}
+
+body.dark-mode .ring-main-val {
+    color: #E0E0E0;
+}
+
+.ring-label {
+    font-size: 0.75rem;
+    color: #888;
+    margin-top: 2px;
+}
+
+body.dark-mode .ring-label {
+    color: #AAA;
+}
+
+/* 底部按钮区 */
+.home-bottom-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 6px;
+}
+
+.home-start-btn {
+    background-color: #B3A1F9 !important;
+    border-radius: 10px !important;
+    padding: 10px 0 !important;
+    font-size: 1rem !important;
+    border: none !important;
+    color: #fff !important;
+    font-weight: 500 !important;
+    width: 100% !important;
+    max-width: 180px;
+}
+
+.home-start-range-row {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.home-start-range-row .home-start-btn {
+    width: min(100%, 180px) !important;
+    flex: 1 1 auto;
+}
+
+.home-range-btn {
+    min-height: 40px;
+    border: 1px solid var(--primary-color);
+    border-radius: 10px;
+    padding: 8px 10px;
+    background: transparent;
+    color: var(--primary-color);
+    cursor: pointer;
+    font-size: 0.82rem;
+    white-space: nowrap;
+}
+
+.home-start-btn.range-selected {
+    background-color: #D46A3C !important;
+}
+
+.home-range-summary {
+    margin: -4px 0 0;
+    min-height: 1.2em;
+    color: var(--primary-color);
+    font-size: 0.76rem;
+    text-align: center;
+}
+
+body.dark-mode .home-start-btn {
+    background-color: var(--primary-color) !important;
+}
+
+.home-message {
+    margin: 0;
+    font-size: 0.85rem;
+    opacity: 0.7;
+    text-align: center;
+    color: #2B2B2B;
+}
+
+body.dark-mode .home-message {
+    color: #E0E0E0;
+}
+
